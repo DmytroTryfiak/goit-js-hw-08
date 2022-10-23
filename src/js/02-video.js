@@ -9,13 +9,18 @@ player.on('timeupdate', throttle(onTimeUpdate, 1000));
 
 function onPlay(data) {
     const videoplayerCurrentTime = localStorage.getItem("videoplayer-current-time");
-    if (videoplayerCurrentTime && videoplayerCurrentTime < data.duration) {
+
+    if (!videoplayerCurrentTime) {
+        return;
+    }
+
+    if (videoplayerCurrentTime < data.duration) {
         player.setCurrentTime(videoplayerCurrentTime);
         return;
     } 
-    if (videoplayerCurrentTime) {
-        localStorage.removeItem("videoplayer-current-time");
-    }
+    
+    localStorage.removeItem("videoplayer-current-time");
+
 };
 
 function  onTimeUpdate (data) {
